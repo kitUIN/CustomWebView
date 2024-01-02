@@ -1,0 +1,98 @@
+<Window
+    Icon="/Assets/avalonia-logo.ico"
+    Title="CustomWebView"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="CustomWebView.Views.MainWindow"
+    x:DataType="vm:MainWindowViewModel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:CustomWebView.ViewModels"
+    xmlns:webview="clr-namespace:WebViewControl;assembly=WebViewControl.Avalonia"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="Edit">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem
+                            Command="{Binding UndoCommand}"
+                            Gesture="CMD+Z"
+                            Header="Undo" />
+                        <NativeMenuItem
+                            Command="{Binding RedoCommand}"
+                            Gesture="Shift+CMD+Z"
+                            Header="Redo" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem
+                            Command="{Binding CutCommand}"
+                            Gesture="CMD+X"
+                            Header="Cut" />
+                        <NativeMenuItem
+                            Command="{Binding CopyCommand}"
+                            Gesture="CMD+C"
+                            Header="Copy" />
+                        <NativeMenuItem
+                            Command="{Binding PasteCommand}"
+                            Gesture="CMD+V"
+                            Header="Paste" />
+                        <NativeMenuItem
+                            Command="{Binding DeleteCommand}"
+                            Gesture="CMD+Back"
+                            Header="Delete" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem
+                            Command="{Binding SelectAllCommand}"
+                            Gesture="CMD+A"
+                            Header="Select All" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+            <NativeMenuItem Header="Navigate">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Command="{Binding BackCommand}" Header="Back" />
+                        <NativeMenuItem Command="{Binding ForwardCommand}" Header="Forward" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+        </NativeMenu>
+    </NativeMenu.Menu>
+
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    FallbackColor="Black"
+                    MaterialOpacity="0.25"
+                    TintColor="{DynamicResource SystemAltHighColor}"
+                    TintOpacity="1" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+        <DockPanel>
+
+            <DockPanel DockPanel.Dock="Top" Margin="0,0,400,0">
+                <Button
+                    Background="Transparent"
+                    Command="{Binding ShowDevToolsCommand}"
+                    DockPanel.Dock="Right">
+                    Show DevTools
+                </Button>
+                <TextBox
+                    Background="Transparent"
+                    Margin="80,0,0,0"
+                    Text="{Binding Address}">
+                    <TextBox.KeyBindings>
+                        <KeyBinding Command="{Binding NavigateCommand}" Gesture="Enter" />
+                    </TextBox.KeyBindings>
+                </TextBox>
+            </DockPanel>
+
+            <webview:WebView Address="{Binding CurrentAddress}" x:Name="webview" />
+        </DockPanel>
+    </Panel>
+</Window>
